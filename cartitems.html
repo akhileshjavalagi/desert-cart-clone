@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #container {
+        width: 75%;
+        display: grid;
+        grid-template-columns: repeat(3, 300px);
+        margin-left: 30px;
+      }
+      #container > div {
+        width: 250px;
+        margin: 30px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+          rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+        border-radius: 5px;
+        height: 280px;
+      }
+      img {
+        width: 80%;
+        height: 500px;
+        border-radius: 3px;
+      }
+      h2 {
+        margin-top: 1px;
+        margin-bottom: 2px;
+      }
+      h1 {
+        
+        text-align: center;
+      }
+      h2,
+      p,h3 {
+        margin-left: 20px;
+      }
+      #num {
+        margin-left: 50px;
+        width: 20px;
+       
+        text-align: center;
+        padding: 50px;
+      }
+      h6 {
+        margin-bottom: 5px;
+      }
+      button {
+        margin-top: 0;
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+      .main {
+        display: flex;
+      }
+      .pro {
+        border: 1px solid black;
+        margin-left: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      a>button{
+        margin-top: 30px;
+      }
+
+    </style>
+  </head>
+  <body style="background-color: silver;">
+    <h1>CART</h1>
+    <h6>Total Cart Items</h6>
+    <button></button>
+    <div class="main">
+      <div id="container"></div>
+      <div class="pro">
+        <div id="promocode"></div>
+        <form id="promo1">
+        <input id="pr" type="text" placeholder="Apply Promo Code" />
+        <input id="promo" type="submit" ></input>
+        </form>
+        <div id="after"></div>
+        <a href="checkout.html"><button>Checkout</button></a>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  
+   var cartProd = JSON.parse(localStorage.getItem('cartData'));
+  console.log(cartProd.length);
+  document.querySelector('button').textContent = cartProd.length;
+  cartProd.map(function (elem,i) {
+    console.log(i);
+    var subdiv = document.createElement('div');
+    var name = document.createElement('h2');
+    var image = document.createElement('img');
+    var price = document.createElement('p');
+    var deleteButton=document.createElement("button");
+    deleteButton.textContent="Delete";
+    deleteButton.addEventListener("click", function(){
+      deleteTask(i);
+    });
+
+    name.textContent = elem.name;
+    image.setAttribute('src', elem.image);
+    price.textContent = elem.price;
+    subdiv.append(image, name, price,deleteButton);
+    document.querySelector('#container').append(subdiv);
+  });
+  function deleteTask(i){
+    cartProd.splice(i,1);
+    localStorage.setItem("cartData",JSON.stringify(cartProd));
+  };
+
+ var totalprice=[];
+  var cartProd = JSON.parse(localStorage.getItem('cartData'));
+  cartProd.map(function (elem) {
+    var subdiv = document.createElement('div');
+    var name = document.createElement('h2');
+    var price = document.createElement('p');
+    name.textContent = elem.name;
+    price.textContent = elem.price;
+    var totalObj=elem.price;
+    totalprice.push(totalObj)
+    localStorage.setItem('totalPrice', JSON.stringify(totalprice));
+    subdiv.append(name, price);
+    document.querySelector('#promocode').append(subdiv);
+  });
+
+var totaldiv=document.createElement("div");
+var button=document.createElement("button");
+  button.textContent="Total";
+
+  button.addEventListener("click",function(){
+  var totalT=JSON.parse(localStorage.getItem("totalPrice"));
+  var res=totalT.reduce(add,0)
+
+  var result=document.createElement("p");
+  result.textContent=res;
+  document.querySelector('#promocode').append(result,"Use masai30 promocode you will get 30% discount");
+    });
+    totaldiv.append(button);
+    document.querySelector("#promocode").append(totaldiv)
+  function add(av,cv){
+    return av+=+cv;
+  }
+  var promocode=document.querySelector("#promo").addEventListener("click",promoCode);
+  function promoCode(event){
+    event.preventDefault();
+    var promo=document.querySelector("#pr").value;
+    var totalT=JSON.parse(localStorage.getItem("totalPrice"));
+    var disc=totalT.reduce(add,0);
+    totalT=disc;
+    var discount=0;
+    if(promo=="masai30")
+    {
+      discount=totalT*.30;
+      totalT=Math.ceil(totalT-discount);
+    }
+    else
+    {
+      totalT=totalT;
+    }
+    var TotalPricetopay=document.createElement("h3");
+    var checkout=document.createElement("button");
+    
+    TotalPricetopay.append(totalT);
+    document.querySelector("#after").append(TotalPricetopay,"Total Amount");
+  }
+</script>

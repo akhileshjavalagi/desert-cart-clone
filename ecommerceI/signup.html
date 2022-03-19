@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Document</title>
+    <style>
+      div {
+        width: 40%;
+        height: 450px;
+        border: 1px solid black;
+        border-radius: 2px;
+        margin: auto;
+        margin-top: 50px;
+        padding: 30px;
+      }
+      div > input {
+        margin: 5px;
+        height: 25px;
+        width: 90%;
+      }
+      button {
+        width: 70%;
+        height: 30px;
+        margin-top: 20px;
+        margin-left: 5px;
+        background-color: rgb(241,198,90);
+        border:1px solid black;
+        border-radius: 10px;
+        background-color: red;
+      }
+      button:hover{
+        background-color: rgb(233, 179, 43);
+         border: 1px solid black;
+      }
+      h1 {
+        margin-left: 5px;
+      }
+      p {
+        font-size: smaller;
+        margin-left: 5px;
+        margin-bottom: 0;
+      }
+      .passp{
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1 style="color: greenyellow;">Create account</h1>
+      <p>Your name</p>
+      <input id="name" type="text"  />
+      <p>Email</p>
+      <input id="email" type="text"  />
+      <p>Password</p>
+      <input type="text" id="password" placeholder="Enter Password" />
+      <p class="passp">Password must be at least 6 characters</p>
+      <input type="text" id="mobile" placeholder="Enter Mobile Number" />
+      <button>Continue</button>
+      <a href="signin.html"><p>Already have an account? Sign in</p></a>
+    </div>
+  </body>
+</html>
+<script>
+  document.querySelector('button').addEventListener('click', signUp);
+  var userData = JSON.parse(localStorage.getItem('userDatabase')) || [];
+  function signUp() {
+    var email = document.querySelector('#email').value;
+    var password = document.querySelector('#password').value;
+    var mobile = document.querySelector('#mobile').value;
+    
+    if(email=="" || password=="" || mobile=="")
+    {
+      alert("Enter all Information")
+    }
+    else if(email!="" && password!="" && mobile!=""){
+
+      var userCred = {
+      emailAdd: email,
+      pass: password,
+      mobile: mobile,
+    };
+    userData.push(userCred);
+    alert("Sign Up is Successful")
+    window.location.href="signin.html"
+    localStorage.setItem('userDatabase', JSON.stringify(userData));
+    }
+    
+  }
+</script>

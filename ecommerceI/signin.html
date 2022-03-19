@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Document</title>
+    <style>
+      div {
+        width: 500px;
+        height: 280px;
+        border: 1px solid black;
+        border-radius: 2px;
+        margin: auto;
+        margin-top: 50px;
+        padding: 30px;
+        background-color: rgb(207, 16, 16);
+      }
+      div > input {
+        margin: 5px;
+        height: 25px;
+        width: 90%;
+      }
+      button {
+        width: 90%;
+        height: 30px;
+        margin-top: 20px;
+        margin-left: 5px;
+        background-color: rgb(241,198,90);
+        border:1px solid black;
+        border-radius: 2px;
+      }
+      button:hover{
+        background-color: rgb(233, 179, 43);
+         border: 1px solid black;
+      }
+      h1 {
+        margin-left: 5px;
+        margin-top: 5px;
+      }
+      p {
+        font-size: smaller;
+        margin-left: 5px;
+        margin-bottom: 0;
+      }
+      #email,#password{
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signdiv">
+      <h1>Sign-In</h1>
+      <p>Enter Email / Mobile Number</p>
+      <input id="email" type="text"  />
+      <p>Enter Password</p>
+      <input type="text" id="password"  />
+      <button>Continue</button>
+      <a href="signup.html"><p>Create new account</p></a>
+    </div>
+  </body>
+</html>
+<script>
+  document.querySelector('button').addEventListener('click', signIn);
+  var regUser = JSON.parse(localStorage.getItem('userDatabase'));
+  function signIn() {
+    var email = document.querySelector('#email').value;
+    var password = document.querySelector('#password').value;
+    if (email === 'admin' && password === 'admin') {
+      window.location.href = 'admin.html';
+    } else {
+      for (var i = 0; i < regUser.length; i++) {
+        if (regUser[i].emailAdd == email || regUser[i].mobile == email) {
+          if (regUser[i].pass == password) {
+            alert('SignIn Succesfull');
+            window.location.href = 'product.html';
+          } else {
+            alert('Incorrect Password');
+          }
+        } else {
+          alert('Incorrect User Please SignUp');
+        }
+      }
+    }
+  }
+</script>
